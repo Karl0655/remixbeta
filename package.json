@@ -12,6 +12,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@clerk/remix": "^3.1.18",
     "@prisma/client": "^5.9.1",
     "@remix-run/css-bundle": "^2.6.0",
     "@remix-run/node": "^2.6.0",

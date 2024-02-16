@@ -29,6 +29,7 @@ model reply {
 }
 
 model notes {
-  id   BigInt @id @default(autoincrement())
-  note Json?
+  id     BigInt  @id @default(autoincrement())
+  note   Json?
+  userid String?
 }

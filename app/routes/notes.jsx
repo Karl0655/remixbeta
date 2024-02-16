@@ -3,14 +3,21 @@ import { useActionData, Form,useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/react";
 import { PrismaClient } from "@prisma/client";
 import NoteList from "../components/NoteList";
+import { getAuth } from "@clerk/remix/ssr.server";
+import { redirect } from "@remix-run/node";
 
 const prisma = new PrismaClient();
 
-export const loader = async () => {
+export const loader = async (args) => {
+  const { userId } = await getAuth(args);
+  if (!userId) {
+    return redirect("/sign-in");
+  }
   const allEntries = await prisma.notes.findMany();
   const notesFormatted = allEntries.map(entry => {
     // Deserialize the note field to obtain title and noteContent
     const noteObject = JSON.parse(entry.note);
+    console.log('user id',userId)
     return {
       id: entry.id.toString(), // Ensure the id is a string to match the key prop expectation
       title: noteObject.title, // Extracted title from the note
